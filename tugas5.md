@@ -2,16 +2,16 @@
 
 ## 1. Todo Create
 
-![Alt text](Screenshot/Tugas5/todo-create_autofocus.png)
+![Alt text](screenshot/tugas5/todo-create_autofocus.png)
 
 ## 2. Todo Created
 
-![Alt text](Screenshot/Tugas5/todo-create_succesfully.png)
+![Alt text](screenshot/tugas5/todo-create_succesfully.png)
 
-## 3. Todo Created
+## 3. User Search
 
-![Alt text](Screenshot/Tugas5/user-search_autofocus.png)
+![Alt text](screenshot/tugas5/user-search_autofocus.png)
 
 ## 4 User Search Result
 
-![Alt text](Screenshot/Tugas5/user-search_result.png)
+![Alt text](screenshot/tugas5/user-search_result.png)
