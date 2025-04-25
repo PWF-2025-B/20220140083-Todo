@@ -19,11 +19,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
-    Route::patch('/todo/create', [TodoController::class, 'create'])->name('todo.create');
     Route::delete('/todo/edit', [TodoController::class, 'edit'])->name('todo.edit');
+
+    // patch -> get 
+    Route::get('/todo/create', [TodoController::class, 'create'])->name('todo.create');
+    // add this method
+    Route::post('/todo', [TodoController::class, 'store'])->name('todo.store');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
+    Route::resource('todos', TodoController::class)->except(['show']);
 });
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
