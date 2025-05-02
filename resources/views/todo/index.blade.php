@@ -38,7 +38,7 @@
 
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead class="text-xs text-black uppercase bg-gray-950 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Title</th>
                                 <th scope="col" class="px-6 py-3">Status</th>
@@ -64,7 +64,42 @@
                                     </span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4"></td>
+                                <td class="px-6 py-4 space-x-2">
+                                    <div class="flex items-center gap-2">
+                                        @if (!$data->is_done)
+                                        <form action="{{ route('todo.complete', $data) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-black bg-green-700 hover:bg-green-800 focus:ring-4 
+                                                focus:outline-none focus:ring-green-300 font-medium rounded-lg px-2.5 
+                                                py-1.5 text-center dark:bg-green-600 dark:hover:bg-green-700 
+                                                dark:focus:ring-green-800">
+                                                Done
+                                            </button>
+                                        </form>
+                                        @else
+                                        <form action="{{ route('todo.uncomplete', $data) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-black bg-red-700 hover:bg-red-800 focus:ring-4 
+                                                focus:outline-none focus:ring-red-300 font-medium rounded-lg px-2.5 
+                                                py-1.5 text-center dark:bg-red-600 dark:hover:bg-red-700 
+                                                dark:focus:ring-red-800">
+                                                Uncomplete
+                                            </button>
+                                        </form>
+                                        @endif
+                                        <form action="{{ route('todo.destroy', $data) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 dark:text-red-400 whitespace-nowrap hover:underline ms-2">
+
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+
                             </tr>
                             @empty
                             <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
@@ -76,6 +111,17 @@
                         </tbody>
                     </table>
                 </div>
+                @if ($todosCompleted > 1)
+                <div class="p-6 text-xl text-gray-900 dark:text-gray-100">
+                    <form action="{{ route('todo.deleteallcompleted') }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <x-primary-button>
+                            Delete All Completed Task
+                        </x-primary-button>
+                    </form>
+                </div>
+                @endif
             </div>
         </div>
     </div>
