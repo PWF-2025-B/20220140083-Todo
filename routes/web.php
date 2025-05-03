@@ -31,10 +31,12 @@ Route::middleware('auth')->group(function () {
     // add this method
     Route::post('/todo', [TodoController::class, 'store'])->name('todo.store');
 
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
-    Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
-    Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/user', [UserController::class, 'index'])->name('user.index');
+        Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');
+        Route::patch('/user/{user}/removeadmin', [UserController::class, 'removeadmin'])->name('user.removeadmin');
+    });
 
     Route::resource('todos', TodoController::class)->except(['show']);
 
