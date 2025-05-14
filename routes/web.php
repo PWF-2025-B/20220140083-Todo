@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/todo/{todo}/complete', [TodoController::class, 'complete'])->name('todo.complete');
     Route::patch('/todo/{todo}/incomplete', [TodoController::class, 'uncomplete'])->name('todo.uncomplete');
 
+    Route::resource('categories', CategoryController::class)->except(['show']);
 
     // patch -> get 
     Route::get('/todo/create', [TodoController::class, 'create'])->name('todo.create');
@@ -42,5 +45,11 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/todo/{todo}', [TodoController::class, 'destroy'])->name('todo.destroy');
     Route::delete('/todo', [TodoController::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
+
+    Route::delete('/categories/{categories}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    // Route::get('/category/edit', [TodoController::class, 'edit'])->name('category.edit');
+    Route::get('/categories/{categories}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::patch('categories/{categories}', [CategoryController::class, 'update'])->name('categories.update');
 });
 require __DIR__ . '/auth.php';

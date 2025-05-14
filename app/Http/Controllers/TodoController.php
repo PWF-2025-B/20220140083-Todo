@@ -6,6 +6,8 @@ use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Category;
+
 class TodoController extends Controller
 {
     // public function index()
@@ -31,17 +33,15 @@ class TodoController extends Controller
     }
     public function create()
     {
-        return view('todo.create');
+        $categories = \App\Models\Category::all();
+        return view('todo.create', compact('categories'));
     }
     public function edit(Todo $todo)
     {
         if (Auth::user()->id == $todo->user_id) {
-            // dd($todo);
-            return view('todo.edit', compact('todo'));
+            $categories = Category::all(); // Ambil semua kategori
+            return view('todo.edit', compact('todo', 'categories')); // Kirim data kategori ke view
         } else {
-            // abort(403);
-            // abort(403, 'Not authorized');
-
             return redirect()->route('todo.index')->with('danger', 'You are not authorized to edit this todo!');
         }
     }
@@ -50,6 +50,7 @@ class TodoController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
+            'category_id' => 'required',
         ]);
 
         // Practical
@@ -59,6 +60,7 @@ class TodoController extends Controller
         // Eloquent Way - Readable
         $todo->update([
             'title' => ucfirst($request->title),
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('todo.index')->with('success', 'Todo updated successfully!');
@@ -67,11 +69,13 @@ class TodoController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'category_id' => 'required',
         ]);
 
         $todo = Todo::create([
             'title' => ucfirst($request->title),
             'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('todo.index')->with('success', 'Todo created successfully.');
