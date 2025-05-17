@@ -20,7 +20,8 @@ class TodoController extends Controller
 
     public function index()
     {
-        $todos = Todo::where('user_id', Auth::id())
+        $todos = Todo::with('category')
+            ->where('user_id', Auth::id())
             // ->orderBy('is_done', 'asc')
             ->orderBy('created_at', 'desc')
             ->get();

@@ -12,7 +12,14 @@ class CategoryController extends Controller
     // Tampilkan semua kategori milik user login
     public function index()
     {
-        $categories = Category::withCount('todos')
+        // $categories = Category::withCount('todos')
+        //     ->where('user_id', Auth::id())
+        //     ->get();
+
+        // return view('categories.index', compact('categories'));
+
+        $categories = Category::with('todos')
+            ->withCount('todos')
             ->where('user_id', Auth::id())
             ->get();
 
