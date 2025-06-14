@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    Route::resource('todos', TodoController::class)->except(['show']);
+    Route::resource('web-todos', TodoController::class)->except(['show']);
 
     Route::delete('/todo/{todo}', [TodoController::class, 'destroy'])->name('todo.destroy');
     Route::delete('/todo', [TodoController::class, 'destroyCompleted'])->name('todo.deleteallcompleted');
